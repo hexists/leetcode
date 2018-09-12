@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// https://leetcode.com/problems/two-sum/description/
+
 int compare(const void *a, const void *b) {
         int num1 = *(int *)a;
         int num2 = *(int *)b;
