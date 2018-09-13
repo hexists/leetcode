@@ -26,7 +26,7 @@ struct ListNode* newNode(int val) {
 	return node;
 }
 
-struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+struct ListNode* addTwoNumbers_ver1(struct ListNode* l1, struct ListNode* l2) {
 	printListNode(l1);
 	printListNode(l2);
 
@@ -64,6 +64,44 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
 	return newList;
 }
 
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+	// printListNode(l1);
+	// printListNode(l2);
+
+	struct ListNode *aPtr = l1;
+	struct ListNode *bPtr = l2;
+	struct ListNode *head = NULL, *tail = NULL;
+	int sum = 0, val = 0;
+
+	while(aPtr != NULL || bPtr != NULL) {
+		if(sum >= 10) sum = 1;
+		else          sum = 0;
+		if(aPtr != NULL) sum += aPtr->val;
+		if(bPtr != NULL) sum += bPtr->val;
+		val = sum % 10;
+		
+		if(head == NULL) {
+			head = tail = newNode(val);
+		}
+		else {
+			tail->next = newNode(val);
+			tail = tail->next;
+		}
+
+		if(aPtr) aPtr = aPtr->next;
+		if(bPtr) bPtr = bPtr->next;
+	}
+
+	if(sum >= 10) {
+		tail->next = newNode(1);
+	}
+
+	printListNode(head);
+
+	return head;
+}
+
 int main() {
 
 	// test case1
@@ -84,7 +122,6 @@ int main() {
 	// test case2
 	// struct ListNode *alist = newNode(1);
 	// alist->next = newNode(8);
-
 	// struct ListNode *blist = newNode(0);
 
 	// test case3
