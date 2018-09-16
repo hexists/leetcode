@@ -5,35 +5,73 @@
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
 int lengthOfLongestSubstring(char* s) {
-	int repeat[26] = {0, };
-	int i, len, max;
-	char *prev = NULL, *curr = s;
+	char repeat[256] = {0, };
+	int i, len = 0, max = 0, n = strlen(s);
+	char *prev, *curr;
 
-	printf("%s\n", s);
+	for(i = 0; i < n; i++) {
+		prev = NULL;
+		curr = &s[i];
+		len = 0;
+		memset(repeat, 0, sizeof(char) * 256);
 
-	while(curr != NULL) {
-		if(prev == NULL || *prev != *curr && repeat[*curr]) {
-			repeat[*curr]++;
-			len++;
+		if(n - i <= max) break;
+
+		while(*curr != '\0') {
+			// if(prev != NULL) printf("%c %c\n", *prev, *curr);
+
+			if(prev == NULL) {
+				repeat[*curr] = 1;
+				len++;
+			}
+			else if (*prev != *curr && repeat[*curr] == 0) {
+				repeat[*curr] = 1;
+				len++;
+			}
+			else {
+				if(max < len) max = len;
+				// init repeat
+				memset(repeat, 0, sizeof(char) * 256);
+				// set curr
+				len = 1;
+				repeat[*curr] = 1;
+			}
+			prev = curr;
+
+			// printf("len : %d, max : %d\n", len, max);
+
+			curr++;
 		}
-		else {
-			if(max < len) max = len;
-			len = 1;
-			// init repeat
-			memset(repeat, 0, sizeof(int) * 26);
-		}
 
-		prev = curr;
-
-		curr++;
+		if(max < len) max = len;
+		
+		// printf("max : %d, %s\n", max, &s[i]);
 	}
+
+	// printf("final max : %d\n", max);
+
+	return max;
 }
 
 int main() {
-	// test_case1
-	char *str = "abcabcbb";
+	// test_case1 : abc, 3
+	// char *str = "abcabcbb";
+	// test_case2 : b, 1
+	// char *str = "bbbbb";
+	// test_case3 : wke, 3
+	// char *str = "pwwkew";
+	// test_case3 :  , 1
+	// char *str = " ";
+	// test_case4 : ab, 2
+	// char *str = "aab";
+	// test_case5 : vdf, 3
+	// char *str = "dvdf";
+	// test_case6 : sjrgap, 6
+	char *str = "asjrgapa";
 
-	lengthOfLongestSubstring(str);
+	int num = lengthOfLongestSubstring(str);
+
+	printf("%d\n", num);
 
 	return 0;
 }
