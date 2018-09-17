@@ -4,7 +4,7 @@
 
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
-int lengthOfLongestSubstring(char* s) {
+int lengthOfLongestSubstring_ver1(char* s) {
 	char repeat[256] = {0, };
 	int i, len = 0, max = 0, n = strlen(s);
 	char *prev, *curr;
@@ -53,25 +53,49 @@ int lengthOfLongestSubstring(char* s) {
 	return max;
 }
 
+int lengthOfLongestSubstring(char* s) {
+	char repeat[128] = {0, };
+	int i, len = 0, max = 0, n = strlen(s);
+	char *curr;
+
+	for(i = 0; i < n; i++) {
+		if(n - i <= max) break;
+		curr = &s[i];
+		len = 0;
+		memset(repeat, 0, sizeof(char) * 128);
+
+		while(*curr != '\0') {
+			if(repeat[*curr] == 0) {
+				repeat[*curr] = 1;
+				len++;
+			}
+			else {
+				break;
+			}
+			curr++;
+		}
+
+		if(max < len) max = len;
+	}
+	return max;
+}
+
 int main() {
 	// test_case1 : abc, 3
-	// char *str = "abcabcbb";
 	// test_case2 : b, 1
-	// char *str = "bbbbb";
 	// test_case3 : wke, 3
-	// char *str = "pwwkew";
-	// test_case3 :  , 1
-	// char *str = " ";
-	// test_case4 : ab, 2
-	// char *str = "aab";
-	// test_case5 : vdf, 3
-	// char *str = "dvdf";
-	// test_case6 : sjrgap, 6
-	char *str = "asjrgapa";
+	// test_case4 :  , 1
+	// test_case5 : ab, 2
+	// test_case6 : vdf, 3
+	// test_case7 : sjrgap, 6
+	char tcase[7][16] = {"abcabcbb", "bbbbb", "pwwkew", " ", "aab", "dvdf", "asjrgapa"};
 
-	int num = lengthOfLongestSubstring(str);
-
-	printf("%d\n", num);
+	int i, num = 0;
+	
+	for(i = 0; i < 7; i++) {
+		num = lengthOfLongestSubstring(tcase[i]);
+		printf("%d\n", num);
+	}
 
 	return 0;
 }
