@@ -26,9 +26,17 @@ Reference:
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        max_val = nums[0]
+        max_val = nums[0] if len(nums) > 0 else 0
         for i in range(1, len(nums)):
-            nums[i] = nums[i-1] + nums[i] if nums[i-1] + nums[i] > nums[i] else nums[i]
+            if nums[i-1] + nums[i] < 0:
+                nums[i] = 0
+            elif nums[i-1] + nums[i] > nums[i]:
+                nums[i] = nums[i-1] + nums[i]
+            else:
+                nums[i]
+
+            # nums[i] = nums[i-1] + nums[i] if nums[i-1] + nums[i] > 0 and nums[i-1] + nums[i] > nums[i] else nums[i]
+
             max_val = max(nums[i], max_val)
         return max_val
 
@@ -37,6 +45,9 @@ if __name__ == '__main__':
     #example1
     nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     nums = [1]
+    nums = [2, -3, 2, 3, 4, -5]
+    nums = []
+    nums = [-1, -3, -2]
 
     sol = Solution()
     ret = sol.maxSubArray(nums)
