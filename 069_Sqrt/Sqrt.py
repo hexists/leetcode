@@ -46,6 +46,7 @@ class Solution:
 if __name__ == '__main__':
     x = 8
     x = 4
+    x = 35
 
     sol = Solution()
     ret = sol.mySqrt(x)
